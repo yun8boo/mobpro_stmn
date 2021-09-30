@@ -10,6 +10,9 @@ const Home: NextPage = () => {
     value: "買い物へ行く"
   }})
 
+  console.log(task);
+  
+
   const [taskName, setTaskName] = useState<string>(task.getName().value())
 
   const onChangeNameTask = ()=> {

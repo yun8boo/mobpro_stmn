@@ -2,7 +2,7 @@ import ValueObject from "../shared/ValueObject";
 import { ResultConstructorProps } from "../shared/Result";
 import * as zod from "zod";
 
-export default class TaskName extends ValueObject<TaskNameProps> {
+export default class TaskDetail extends ValueObject<TaskDetailProps> {
   public value() {
     return this.props.value;
   }
@@ -21,24 +21,24 @@ export default class TaskName extends ValueObject<TaskNameProps> {
         };
       });
 
-      const params: ResultConstructorProps<TaskName, null> = {
+      const params: ResultConstructorProps<TaskDetail, null> = {
         status: "FAILURE",
         contents,
       };
 
-      return this.getResult<TaskName, null>(params);
+      return this.getResult<TaskDetail, null>(params);
     }
   }
 
-  public static factory(props: TaskNameProps) {
-    return new TaskName(props);
+  public static factory(props: TaskDetailProps) {
+    return new TaskDetail(props);
   }
 }
 
 const valueSchema = zod
   .string()
-  .max(10, { message: "文字数は10文字以内にしてほしいな" });
+  .max(200, { message: "文字数は200文字以内にしてほしいな" });
 
-export type TaskNameProps = {
+export type TaskDetailProps = {
   value: string;
 };

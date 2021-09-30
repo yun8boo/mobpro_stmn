@@ -2,7 +2,11 @@ import ValueObject from "../shared/ValueObject";
 import { ResultConstructorProps } from "../shared/Result";
 import * as zod from "zod";
 
-export default class TaskName extends ValueObject<TaskNameProps> {
+/**
+ * 1~5で優先度を決める
+ */
+
+export default class TaskPriority extends ValueObject<TaskPriorityProps> {
   public value() {
     return this.props.value;
   }
@@ -16,29 +20,30 @@ export default class TaskName extends ValueObject<TaskNameProps> {
         return {
           path: issue.path[0],
           code: issue.code,
-          title: "文字数が多いよ",
+          title: "１〜５で決めて欲しいな",
           detail: issue.message,
         };
       });
 
-      const params: ResultConstructorProps<TaskName, null> = {
+      const params: ResultConstructorProps<TaskPriority, null> = {
         status: "FAILURE",
         contents,
       };
 
-      return this.getResult<TaskName, null>(params);
+      return this.getResult<TaskPriority, null>(params);
     }
   }
 
-  public static factory(props: TaskNameProps) {
-    return new TaskName(props);
+  public static factory(props: TaskPriorityProps) {
+    return new TaskPriority(props);
   }
 }
 
 const valueSchema = zod
-  .string()
-  .max(10, { message: "文字数は10文字以内にしてほしいな" });
+  .number()
+  .min(1, { message: "１〜５で決めて欲しいな" })
+  .max(5, { message: "１〜５で決めて欲しいな" });
 
-export type TaskNameProps = {
-  value: string;
+export type TaskPriorityProps = {
+  value: number;
 };
